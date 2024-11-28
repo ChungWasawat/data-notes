@@ -263,8 +263,42 @@ Enumerations and subpartitions
     - They chunk up the big data problem into manageable pieces (easier to edit enums that the whole table)
 - [pipeline creation guideline?](https://github.com/EcZachly/little-book-of-pipelines)
 
-![Enum example](img/enum_example.png)
+![Enum example](img/de_bootcamp_zach/enum_example.png)
+- the book of enum makes it easy to do data quality check
+- it also helps in data consistency when using the source function to create the value from enum
 
 
+This enum pattern is useful when there are tons of sources mapping to a shared schema
+- Airbnb:
+    - Unit Economics (fees, coupons, credits, insurance, infrastructure cost, taxes, etc)
+- Netflix:
+    - Infrastructure Graph (applications, databases, servers, code bases, CI/CD jobs, etc)
+- Facebook:
+    - Family of Apps (oculus, instagram, facebook, messenger, whatsapp, threads, etc)
+- Japaness Car
+    - Brands (Toyota, Honda, Suzuki, etc) -> car_id, brands, plant_country, specific_properties??
+
+Flexible schema is suitable for data modelling from disparate (different) sources into a shared schema
+- Benefits
+    - You don't have to run ALTER TABLE commands to add columns
+    - You can manage a lot more columns but it still has a limit 
+    - Your schemas don't have a ton of "NULL" columns from unmatched columns from each table
+    - "Other_properties" column is pretty awesome for rarely-used-but-needed columns (to use map to keep the unmatched columns??)
+- Drawbacks
+    - Compression is usually worse, (especially if you use JSON as it needs space for key and value)
+    - Readability, queryability 
+
+Graph modeling is RELATIONSHIP focused, not ENTITY focused. (flexible) 
+- Usually objects in model should have 
+    - Identifier: STRING
+    - Type: STRING
+    - Properties: MAP<STRING, STRING>
+- For a version that relationships are modeled a little bit more in depth 
+    - subject_identifier: STRING 
+    - Subject_type: VERTEX_TYPE 
+    - Object_identifier: STRING
+    - Object_type: VERTEX_TYPE 
+    - Edge_type: EDGE_TYPE
+    - Properties: MAP<STRING, STRING>
 
 

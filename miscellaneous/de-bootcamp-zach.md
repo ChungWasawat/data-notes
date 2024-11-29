@@ -289,11 +289,11 @@ Flexible schema is suitable for data modelling from disparate (different) source
     - Readability, queryability 
 
 Graph modeling is RELATIONSHIP focused, not ENTITY focused. (flexible) 
-- Usually objects in model should have 
+- Usually entities/ nodes in model should have 
     - Identifier: STRING
     - Type: STRING
     - Properties: MAP<STRING, STRING>
-- For a version that relationships are modeled a little bit more in depth 
+- For edges of nodes, they would have 
     - subject_identifier: STRING 
     - Subject_type: VERTEX_TYPE 
     - Object_identifier: STRING
@@ -301,4 +301,10 @@ Graph modeling is RELATIONSHIP focused, not ENTITY focused. (flexible)
     - Edge_type: EDGE_TYPE
     - Properties: MAP<STRING, STRING>
 
+### Lab
+![relationship between nodes](img/de_bootcamp_zach/graph_relationship.png)
 
+
+subject = players, object = teams/ games
+- creating relationship between subject and object is easy as it is not bidirectional   
+- but creating relationship between two subjects is harder because it is bidirectional, making duplicate rows (sub1 -> sub2, sub2 -> sub1) 

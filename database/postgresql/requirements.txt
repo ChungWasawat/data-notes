@@ -1,0 +1,5 @@
+faker==33.0.0
+pendulum==3.0.0
+sqlalchemy==2.0.36
+pandas==2.2.3
+psycopg2-binary==2.9.10

@@ -263,7 +263,7 @@ Enumerations and subpartitions
     - They chunk up the big data problem into manageable pieces (easier to edit enums that the whole table)
 - [pipeline creation guideline?](https://github.com/EcZachly/little-book-of-pipelines)
 
-![Enum example](img/de_bootcamp_zach/enum_example.png)
+![Enum example](img/lec1/enum_example.png)
 - the book of enum makes it easy to do data quality check
 - it also helps in data consistency when using the source function to create the value from enum
 
@@ -302,7 +302,7 @@ Graph modeling is RELATIONSHIP focused, not ENTITY focused. (flexible)
     - Properties: MAP<STRING, STRING>
 
 ### Lab
-![relationship between nodes](img/de_bootcamp_zach/graph_relationship.png)
+![relationship between nodes](img/lec1/graph_relationship.png)
 
 
 subject = players, object = teams/ games

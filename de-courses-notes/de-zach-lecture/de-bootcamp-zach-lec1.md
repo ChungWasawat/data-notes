@@ -176,6 +176,7 @@ Slowly Changing Dimensions is the best when data changes slowly
   - not suitable for 
       - Latest snapshot
       - Daily/Monthly/Yearly snapshot depended on some dimensions
+  - it's okay to not be idempotent if SCD table is designed properly
 
 How can you model dimensions that change?
 - Singular snapshots (only latest snapshot available)

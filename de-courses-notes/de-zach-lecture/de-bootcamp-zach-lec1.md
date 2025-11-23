@@ -173,9 +173,9 @@ The pains of not having idempotent pipelines
 - Silent failures
 
 Slowly Changing Dimensions is the best when data changes slowly
-    - not suitable for 
-        - Latest snapshot
-        - Daily/Monthly/Yearly snapshot depended on some dimensions
+  - not suitable for 
+      - Latest snapshot
+      - Daily/Monthly/Yearly snapshot depended on some dimensions
 
 How can you model dimensions that change?
 - Singular snapshots (only latest snapshot available)

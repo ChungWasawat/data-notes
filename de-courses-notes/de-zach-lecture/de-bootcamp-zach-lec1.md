@@ -209,15 +209,15 @@ types of Slowly Changing Dimensions
         - You lose the history in between original and current
     - NOT IDEMPOTENT, impossible to know when to pick original vs current 
 
-SCD2 Loading
-    - Load the entire history in one massive query
-        - Inefficient but nimble -quick
-        - 1 query and you're done
-    - Incrementally load the data after the previous SCD is generated (cumulative)
-        - Has the same depends_on_past constraint
-        - Efficient but cumbersome -use more time and effort
+**SCD2 Loading**
+- Load the entire history in one massive query
+    - Inefficient but nimble -quick
+    - 1 query and you're done
+- Incrementally load the data after the previous SCD is generated (cumulative)
+    - Has the same depends_on_past constraint
+    - Efficient but cumbersome -use more time and effort
 
-Reality 
+**Reality** 
 when start doing something, there is a trade off between convenience/ high efficiency and opportunity cost (time, effort, money)
 
 ### Lab

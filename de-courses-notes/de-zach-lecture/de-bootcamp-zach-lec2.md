@@ -3,13 +3,21 @@
 source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/data-engineer-handbook/blob/main/bootcamp/introduction.md)
 
 ## Lecture 1
-### Dimensional Data Modeling
-Dimensions are attributes of an entity like user's birthdate, user's tel number or user's ID (which can be used to identify the user (entity))
+### Fact Data Modeling
+Facts are something that actually happened or occurred e.g. app logs of users, a transaction of some activitie so they are immutable (unchangable) and often used in aggregations unlike dimensional data that is often used in filtering, grouping or giving context for facts data
 
-Dimensions have two types
-1. Slowly-Changing (time-depended such as phone number)
-2. Fixed (such as birthdate)
+Fact modeling is hard because
+1. has 10x-100x volume than dimension data e.g. 1 user can create many activities 
+2. require a lof of context (dimensional data) for effective analysis
+3. without context, duplicate data in facts are way more common than in dimension
 
+Normalization vs Denormalization
+- Normalization is best for small data to deduplicate data but for large data required many resources to join data
+- Denormalization always brings some dimensional attributes so it is quicker for analysis (less join) but requires large storage instead
+
+**Don't count raw logs as fact data because raw logs doesn't have proper format for analysis and might have duplicate problem**
+
+--old--
 Before start doing something, need to know your consumer to set goals for what you are doing
 - data that is easy to query, not many complex data types for data scientists, data analysts
 - data that is probably harder, compact for other data engineers (nested query is stll fine)

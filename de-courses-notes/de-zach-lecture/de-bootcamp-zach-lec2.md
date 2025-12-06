@@ -4,19 +4,27 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 
 ## Lecture 1
 ### Fact Data Modeling
-Facts are something that actually happened or occurred e.g. app logs of users, a transaction of some activitie so they are immutable (unchangable) and often used in aggregations unlike dimensional data that is often used in filtering, grouping or giving context for facts data
++ Facts are something that actually happened or occurred e.g. app logs of users, a transaction of some activitie so they are immutable (unchangable) and often used in aggregations unlike dimensional data that is often used in filtering, grouping or giving context for facts data
 
-Fact modeling is hard because
-1. has 10x-100x volume than dimension data e.g. 1 user can create many activities 
-2. require a lof of context (dimensional data) for effective analysis
-3. without context, duplicate data in facts are way more common than in dimension
 
-Normalization vs Denormalization
-- Normalization is best for small data to deduplicate data but for large data required many resources to join data
-- Denormalization always brings some dimensional attributes so it is quicker for analysis (less join) but requires large storage instead
++ Imagine that what you can tell from 1 row of fact data table, you can't tell **WHO, WHERE, HOW** from the IDs you see on the row except you did join or keep it denormalized those questions can be answered from dimension data tables.   
+For fact data table, the questions are **What, When** e.g. what action users do: buy/ sold/ deposited/ clicked/ delivered, what when data is collected: timestamp/ date
+
+
++ Fact modeling is hard because
+    1. has 10x-100x volume than dimension data e.g. 1 user can create many activities 
+    2. require a lof of context (dimensional data) for effective analysis
+    3. without context, duplicate data in facts are way more common than in dimension
+
++ Normalization vs Denormalization
+    - Normalization is best for small data to deduplicate data but for large data required many resources to join data
+    - Denormalization always brings some dimensional attributes so it is quicker for analysis (less join) but requires large storage instead
 
 **Don't count raw logs as fact data because raw logs doesn't have proper format for analysis and might have duplicate problem**
 
++ How does fact modeling work?
+  - fact datasets should have quality guarantees otherwise we can't tell what's going on there (it's answer for what, when)
+  - fact data should be smaller than raw logs as it doesn't keep unnecessary columns or hard-to-understand columns e.g. http status or error log (this is for software engineer)
 --old--
 Before start doing something, need to know your consumer to set goals for what you are doing
 - data that is easy to query, not many complex data types for data scientists, data analysts

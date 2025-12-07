@@ -19,12 +19,40 @@ For fact data table, the questions are **What, When** e.g. what action users do:
 + Normalization vs Denormalization
     - Normalization is best for small data to deduplicate data but for large data required many resources to join data
     - Denormalization always brings some dimensional attributes so it is quicker for analysis (less join) but requires large storage instead
+        - It can reduce compute and network cost to do join process. For the example in the video, denormailzation can reduce compute cost to join large datasets by storing more data so it doesn't need to join anymore
 
 **Don't count raw logs as fact data because raw logs doesn't have proper format for analysis and might have duplicate problem**
+**broadcast join = join every (larger) table with small table that is needed for more context**
 
 + How does fact modeling work?
   - fact datasets should have quality guarantees otherwise we can't tell what's going on there (it's answer for what, when)
   - fact data should be smaller than raw logs as it doesn't keep unnecessary columns or hard-to-understand columns e.g. http status or error log (this is for software engineer)
+  - fact data doesn't need to in normalized form only, it can be in denormalized form but keeps only necessary columns otherwise it is raw logs instead of fact data
+ 
++ Data drift
+  - Data drift is essentially the concept that the data in production (Analytics or AI model) has changed over time from the version it's been used.
+  - Shared schema about how every team has changed the dataset to make everyone on the same page (changed -> transformed, computed etc)
+ 
++ how to handle high volume fact data
+  - sampling: it doesn't give result for all use cases (imprecision) but it gives an overview of distribution when do with different sample many times
+  - bucketing: fact data can be bucketed by one of the important dimensions (often user) so it reduces cost from shuffle when joining
+      - bucket join: hash key and take data from both tables to do join in each hashed bucket
+      - sorted-merge bucket join: the same as above but sort the data in every bucket before joining      
+
++ how long should you hold onto fact data?
+  - Big tech approach
+      - < 10TB: retention didn't matter much, might anonymize data after 60-90 days before move transformed data to a new PII table (legal-wise)
+      - > 100TB: very short retention period -14 days or less to not make the cost high   
+
+## Lab 1
+
+
+## Lecture 2
+
+
+
+
+
 --old--
 Before start doing something, need to know your consumer to set goals for what you are doing
 - data that is easy to query, not many complex data types for data scientists, data analysts

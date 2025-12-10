@@ -45,7 +45,7 @@ For fact data table, the questions are **What, When** e.g. what action users do:
 + how long should you hold onto fact data?
   - Big tech approach
       - < 10TB: retention didn't matter much, might anonymize data after 60-90 days before move transformed data to a new PII table (legal-wise)
-      - > 100TB: very short retention period -14 days or less to not make the cost high   
+      - \> 100TB: very short retention period -14 days or less to not make the cost high   
 
 + Deduplication of fact data
     - example

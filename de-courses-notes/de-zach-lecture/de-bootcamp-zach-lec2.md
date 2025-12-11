@@ -75,7 +75,7 @@ For fact data table, the questions are **What, When** e.g. what action users do:
         - always be higher in volume than dimensions except facts for rare events
         - generally come from events and logs
 
-+ changing criteria for dimension in production is expensive so it's necessary to create it with many thought how it will impact business ( think of how user can change the value or set the value )
++ changing criteria for bucketing dimension in production is expensive so it's necessary to create it with many thought how it will impact business ( think of how user can change the value or set the value )
 + to store recent data for n last days(or whatever) is not only grouping by the table and storing it as array or anything else but also using binary number to show which days user is active like 10010 -> user had been active for two days in last 5 days
 
 

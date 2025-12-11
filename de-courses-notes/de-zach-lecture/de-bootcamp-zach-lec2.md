@@ -63,6 +63,20 @@ For fact data table, the questions are **What, When** e.g. what action users do:
 
 ## Lecture 2
 
++ some data can be both fact and dimension at the time like user's events on website or application
++ Many fact datasets can be aggregated to a few dimension to reduce cardinality ( purchase amount -> customer class) ( the amount of buckets should be got from the data's distribution )
+
++ Properties of Facts vs Dimensions
+    - Dimensions
+        - show up in `Group By` when doing analytics -> can be high cardinality or low cardinality
+        - generally come from a snapshot of database at one point in time
+    - Facts
+        - used in aggregation by functions like `SUM`, `AVG`, `COUNT` etc
+        - always be higher in volume than dimensions except facts for rare events
+        - generally come from events and logs
+
++ changing criteria for dimension in production is expensive so it's necessary to create it with many thought how it will impact business ( think of how user can change the value or set the value )
++ to store recent data for n last days(or whatever) is not only grouping by the table and storing it as array or anything else but also using binary number to show which days user is active like 10010 -> user had been active for two days in last 5 days
 
 
 ## Lab 2

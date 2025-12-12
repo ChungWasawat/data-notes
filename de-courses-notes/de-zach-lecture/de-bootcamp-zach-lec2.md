@@ -108,4 +108,72 @@ For fact data table, the questions are **What, When** e.g. what action users do:
       - need to set a specific time to pick snapshots (month start/ month end/ both)
  
 ## Lab 3
+example here
+```
+-- postgresql
+-- create struct
+create type struct_name as (
+    data1 integer,
+    data2 real
+)
+-- create enum 
+create type enum_name as enum('high', 'medium', 'low')
+-- create new cumulative table with the struct
+create table cumulative_table (
+    id integer,
+    data1 integer,
+    data2 text,
+    struct_name struct_type[] (struct_name can be struct_type)
+    primary key(id, data1)
+) 
+-- insert data into cumulative table 
+with yesterday as (
+    select * from yesterday_table
+    where current_date = 'yesterday'
+),
+    today as (
+    select * from today_table
+    where date = 'today'
+    )
+-- case 1 no yesterday data but have today data, case 2 have both data, case 3 no today data but have yesterday data
+-- double colon = cast in postgresql
+insert into cumulative_table
+select 
+    coalesce(t.data1, y.data1) as data1,
+    coalesce(t.data2, y.data2) as data2,
+    coalesce(t.data3, y.data3) as data3,
+    case when y.struct_name is null
+    	then array[row(
+    		t.data_in_struct1,
+    		t.data_in_struct2
+    	)::struct_type]
+    when t.date is not null
+        then y.struct_name || array[row(
+     		t.data_in_struct1,
+    		t.data_in_struct2
+    	)::struct_type]
+    else y.struct_name
+    end as struct_name
+    coalesce( t.date, y.current_date +1) as current_date
+from today t full outer join yesterday y 
+    on t.data1 = y.data1
 
+-- unnest array
+with unnested as (
+select data1,
+-- split array into rows of the struct
+    unnest(struct_name::struct_type) as struct_name
+from cumulative_table
+where date = 'specific date' and data1 = 'abc'
+)
+-- split struct into columns 
+select data1, (struct_name::struct_type).*
+from unnested
+
+-- slicing index of array (array_name is struct_name)
+select data1,
+    (array_name[1]::struct_type).data_in_struct1 --first item in array
+    (array_name[cardinality(array_name)]::struct_type).data_in_struct1 --last item in array
+-- benefits from array is faster than group by
+-- normal way: need group by to find min, max of the same data1 
+```

@@ -94,18 +94,18 @@ For fact data table, the questions are **What, When** e.g. what action users do:
           - Not parallel: `ORDER BY`, window function that doesn't use `PARTITION BY`
 
 + How to reduce volume of fact data modeling
-  1. Fact data (often has this schema): `user_id, event_time, action, date_partition` -> high volume as 1 row per event 
-    - very flexible for some kind of analytics because data isn't aggregated yet
-    - only good into recent data or a couple days data (small time frame) because of join cost
+  1. Fact data (often has this schema): `user_id, event_time, action, date_partition` -> high volume as 1 row per event
+      - very flexible for some kind of analytics because data isn't aggregated yet
+      - only good into recent data or a couple days data (small time frame) because of join cost
   2. Daily aggregate: `user_id, action_count, date_partition` -> medium sized volume, 1 row per day
-    - good for 1-2 years data analytics within less time because of smaller size of data
-    - trade off between less precison of hourly data and high volume of storage ( might impact SCD if it has some requirement about it )
+      - good for 1-2 years data analytics within less time because of smaller size of data
+      - trade off between less precison of hourly data and high volume of storage ( might impact SCD if it has some requirement about it )
   3. Reduced fact: `user_id, action_count Array, month_start_partition/ year_start_partition` -> low volume, 1 row per month/ year
-    - use less time to do backfilling than daily aggregate
-    - multi-year analysis took hours instead of weeks and give fast correlation between dimension and user-level metrics
-    - indexing: first index=month_start + zero days, last index=month_start + array_length - 1
-    - need to give up 100% accuracy of SCD as SCD is needed to use this time window as well
-    - need to set a specific time to pick snapshots (month start/ month end/ both)
+      - use less time to do backfilling than daily aggregate
+      - multi-year analysis took hours instead of weeks and give fast correlation between dimension and user-level metrics
+      - indexing: first index=month_start + zero days, last index=month_start + array_length - 1
+      - need to give up 100% accuracy of SCD as SCD is needed to use this time window as well
+      - need to set a specific time to pick snapshots (month start/ month end/ both)
  
 ## Lab 3
 

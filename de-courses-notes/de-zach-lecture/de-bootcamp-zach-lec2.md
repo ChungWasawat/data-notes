@@ -78,11 +78,34 @@ For fact data table, the questions are **What, When** e.g. what action users do:
 + changing criteria for bucketing dimension in production is expensive so it's necessary to create it with many thought how it will impact business ( think of how user can change the value or set the value )
 + to store recent data for n last days(or whatever) is not only grouping by the table and storing it as array or anything else but also using binary number to show which days user is active like 10010 -> user had been active for two days in last 5 days
 
-
 ## Lab 2
 
 
 ## Lecture 3
 
++ Why shuffle should be minimized
+  - reduce network overhead so Big data loves parallelism
+      - Types of queries that are highly parallelizable
+          - Extremely parallel: `SELECT`, `FROM`, `WHERE`
+          - Kinda parallel: `GROUP BY`, `JOIN`, `HAVING` -> sometimes all rows of data that needs to be grouped by are in the same machine so it doesn't need to be transferred anywhere
+              - How to make these more efficient
+                1. bucketize based on keys to do group by (partition in database?)
+                2. reduce the data volume as much as possible
+          - Not parallel: `ORDER BY`, window function that doesn't use `PARTITION BY`
+
++ How to reduce volume of fact data modeling
+  1. Fact data (often has this schema): `user_id, event_time, action, date_partition` -> high volume as 1 row per event 
+    - very flexible for some kind of analytics because data isn't aggregated yet
+    - only good into recent data or a couple days data (small time frame) because of join cost
+  2. Daily aggregate: `user_id, action_count, date_partition` -> medium sized volume, 1 row per day
+    - good for 1-2 years data analytics within less time because of smaller size of data
+    - trade off between less precison of hourly data and high volume of storage ( might impact SCD if it has some requirement about it )
+  3. Reduced fact: `user_id, action_count Array, month_start_partition/ year_start_partition` -> low volume, 1 row per month/ year
+    - use less time to do backfilling than daily aggregate
+    - multi-year analysis took hours instead of weeks and give fast correlation between dimension and user-level metrics
+    - indexing: first index=month_start + zero days, last index=month_start + array_length - 1
+    - need to give up 100% accuracy of SCD as SCD is needed to use this time window as well
+    - need to set a specific time to pick snapshots (month start/ month end/ both)
+ 
 ## Lab 3
 

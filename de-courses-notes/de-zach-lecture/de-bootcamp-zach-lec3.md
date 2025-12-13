@@ -9,8 +9,14 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 + Spark is storage agnostic (decoupling of storage and compute) -> allow user to choose whichever storage they want (avoid vendor lock-in)
 + However, Spark needs users that know how to use it or Company has already set other distributed processing systems
 
++ Spark Architecture
+  - RDD
+  - Dataset
+  - DataFrame
+
 + Spark's unit 
   - Plan: a transformation that will happen when there is a trigger (action) so it is evaluated as lazy. it can be one function or more-than-one functions
+      - can use `explain()` on dataframes to see plan's details  
   - Driver: read the plan and determine how the plan should be run (start executing, how to join, how much parallelism each step needs) and assign to executor. important driver settings below
       - `spark.driver.memory`: rarely being used for complex jobs or jobs that change the plan after execution
       - `spark.driver.memoryOverheadFactor`: only used for complex jobs that might require more memory when they are executed 
@@ -33,10 +39,6 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
       - more efficient if there are multiple JOINs or aggregations downstream
       - In initial state on Presto, if a number of buckets is less than 16, the process will be slow
 **Spark's Join can't solve all problems so in some case, might ask upstream users to fix data or log data?**
-
-+ Spark Architecture
-  - RDD
-  - Dataset
  
 + Shuffle
   - Map-Reduce
@@ -63,6 +65,18 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
            ```
       - Filter out outliers and create a dedicated pipeline for them
 
++ Spark on Databricks vs regular Spark
+  - suggestion: Even though Databricks allows to use Spark as notebooks, code is more proper in production as testing (e.g. Unit testing) can be done with code
+    - Notebooks might be used when non-tech people are invited to collaborate in the project
+! attach image ...
+
++ Where Spark can read data from
+  - Data Lake: Delta Lake, Apache Iceberg, Hive metastore
+  - RDBMS: Postgres, Oracle
+  - API: -turn REST API into data **be careful about memory (Driver) when processing many APIs or parallelly processing API**
+  - a flat file: CSV, JSON
+
+**Spark output almost always be partitioned on execution date**
 
 --example format below--
 + Facts are something that actually happened or occurred e.g. app logs of users, a transaction of some activitie so they are immutable (unchangable) and often used in aggregations unlike dimensional data that is often used in filtering, grouping or giving context for facts data

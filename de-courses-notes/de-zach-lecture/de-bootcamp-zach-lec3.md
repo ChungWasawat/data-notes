@@ -91,7 +91,7 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
     - nice for testing
   - Notebook
     - before job starts running, need to have a Notebook session stay live, then need to terminate after job has been done
-    - Databricks allows to directly run notebook in production so it is kinda dangerous so should connect Databricks with Github for two things below to minimize damage from bad changes
+    - Databricks allows to directly run notebook in production so it is kinda dangerous so should connect Databricks with Github for version control as two things below to minimize damage from bad changes
       1. Pull Request review process for every change
       2. CI/CD check
 + Caching and Temporary views

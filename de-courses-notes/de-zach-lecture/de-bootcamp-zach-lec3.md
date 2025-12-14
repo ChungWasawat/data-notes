@@ -9,10 +9,12 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 + Spark is storage agnostic (decoupling of storage and compute) -> allow user to choose whichever storage they want (avoid vendor lock-in)
 + However, Spark needs users that know how to use it or Company has already set other distributed processing systems
 
-+ Spark Architecture
-  - RDD
-  - Dataset
-  - DataFrame
++ Spark words
+  - RDD: lowest unit in Spark
+  - Dataset (only Scala): best for pipelines that require unit and integration tests as a mock data can be created from schema right away
+    - needs to define which columns are nullable to avoid error so it is a practice for data quality
+  - DataFrame: suited for pipelines that are less likely to experience change and easy to run testing
+  - Spark SQL: suited for pipelines that are used in collaboration with data scientists and can be changed quickly 
 
 + Spark's unit 
   - Plan: a transformation that will happen when there is a trigger (action) so it is evaluated as lazy. it can be one function or more-than-one functions
@@ -78,20 +80,66 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 
 **Spark output almost always be partitioned on execution date**
 
---example format below--
-+ Facts are something that actually happened or occurred e.g. app logs of users, a transaction of some activitie so they are immutable (unchangable) and often used in aggregations unlike dimensional data that is often used in filtering, grouping or giving context for facts data
+## Lab 1
 
-+ Imagine that what you can tell from 1 row of fact data table, you can't tell **WHO, WHERE, HOW** from the IDs you see on the row except you did join or keep it denormalized those questions can be answered from dimension data tables.   
-For fact data table, the questions are **What, When** e.g. what action users do: buy/ sold/ deposited/ clicked/ delivered, what when data is collected: timestamp/ date
 
-+ Fact modeling is hard because
-    1. has 10x-100x volume than dimension data e.g. 1 user can create many activities 
-    2. require a lof of context (dimensional data) for effective analysis
-    3. without context, duplicate data in facts are way more common than in dimension
+## Lecture 2
 
-+ Normalization vs Denormalization
-    - Normalization is best for small data to deduplicate data but for large data required many resources to join data
-    - Denormalization always brings some dimensional attributes so it is quicker for analysis (less join) but requires large storage instead
-        - It can reduce compute and network cost to do join process. For the example in the video, denormailzation can reduce compute cost to join large datasets by storing more data so it doesn't need to join anymore
++ Spark Server vs Spark Notebooks
+  - Server (submit via Spark CLI or `spark-submit`
+    - run new session every time a new jar file comes in so cache will be cleared automaticallly after job has been done
+    - nice for testing
+  - Notebook
+    - before job starts running, need to have a Notebook session stay live, then need to terminate after job has been done
+    - Databricks allows to directly run notebook in production so it is kinda dangerous so should connect Databricks with Github for two things below to minimize damage from bad changes
+      1. Pull Request review process for every change
+      2. CI/CD check
++ Caching and Temporary views
+  - Temporary views (like CTE in SQL)
+    - Always get recomputed unless cached in memory
+  - Caching (similar to materialized views in SQL)
+    - store pre-computed values for reuse
+    - it stays partitioned so even 100GB data can be cached and broken into small chunks for many nodes
+    - Storage levels
+      - Memory only
+      - Disk only (not recommend to use this option in Dataframe caching but it's okay to use for actual schema)
+      - Memory and Disk -default
+    - Caching only is good if it fits into memory otherwise there might be a chance to miss some staging table in pipeline
+    - For Notebooks, call `unpersist` state when job has been done otherwise the cached data will reduce available memory
++ Broadcast Join optimization
+  - like in lecture2, it prevents Shuffle
+  - can set threshold with `spark.sql.autoBroadcastJoinThreshold`
+    - default small size of instrutor is 10MB, so this setting can help in size increasing
+  - alternative is to use broatcast dataframe, it will work the same. moreover, it is explicit in code so next person can know the intent for the code block
++ UDFs (user-defined function)
+  - allow to do complex process
+  - for PySpark, it needs to serialize and deserialize multiple times between Python and Java/Scala, causing performance slower but Apache Arrow helps to optimize PySpark UDFs to become more inline with Scala Spark UDFs
+    - but for user-defined aggregating functions, the problem still persists
+  - Dataset API in Scala Spark performs faster as no serialization and deserialization steps
++ Spark tuning
+  - Executor memory
+    - needs to adjust to actual usage, don't just set to maximum (16GB)
+  - Driver memory
+    - the same with executor memory
+    - only needs to be bumped up if:
+      - call `df.collect()`
+      - have a very complex job
+  - Shuffle partitions
+    - default is 200
+    - suggestion: should aim for 100MB per partition but it can increase or decrease up to 50% (50MB, 150MB) depends on memory, I/O, network of environment
+  - Adaptive Query Execution (AQE)
+    - helps with skewed datasets but wasteful for data isn't skewed
++ Parquet files
+  - run-length encoding for powerful compression, better for properly-sorted data
+  - suggestion
+    - don't use global `.sort()` as it needs to shuffle
+    - use `.sortWithinPartitions` because it is parallelizable
+        
+## Lab 2
 
-**Don't count raw logs as fact data because raw logs doesn't have proper format for analysis and might have duplicate problem**
+
+## Lecture 3
+
+
+## Lab 3
+

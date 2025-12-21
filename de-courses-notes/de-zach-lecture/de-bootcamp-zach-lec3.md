@@ -139,7 +139,50 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 
 
 ## Lecture 3
+### Where to catch quality bugs
+#### In development - best case
+1. how to catch bugs during development phase
+   - unit test for every function
+     - add unit tests of pipelines in CI/CD so others can see and fix although they don't know or understand about pipelines
+   - integration test for
+   - linter: make code more readable and easier to spot bugs - coding standard for a team
+#### In production, but not showing up in tables - still okay
++ 2 types of the problem in this state
+  - error from staging state to production and the audit failed before deployment
+  - false positive when in production
++ how to catch bugs in production
+  - use write-audit-publish pattern
+    - replicate staging table to be the same with production table so quality check can be done there and if it passes, then it's ready for production
+#### In production, in production tables - worst choice
+- data users can notice whether it's immediate or after deployment for a while
 
+**Software engineering has higher quality standards than data engineering**
+- Reason
+  - Impact from application failed and pipeline failed is different because frontend part is the main business function
+    - however,
+      * data delays can impact machine learning's effectiveness for the model that needs streaming data or latest data
+      * data quality can impact result of experimentation (e.g. A/B testing)
+  - Test-driven development and behaviour-driven development are newer in data engineering
+  - Background of data engineers is more diverse
+
+**tradeoff between busines velocity and sustainability**
+- business wants answers fast but engineers don't want to waste their resources to fix bugs
+- it depends on team leader and culture
+- but sustainability is more preferable
+
+**Data Engineering capability standard**
+- Latency: choose the right latency for streaming and microbatch pipelines
+- Quality: apply best practices and frameworks (tools like Great Expectations, Amazon DQ, Chisa)
+- Completeness: practise how to communicate with domain experts to get the right schema or architecture
+- Ease-of-access and usability: create data products (e.g. built-in sql, powerful dashboard, read-and-write API) and proper data modeling 
+
+**Mindset to have for better engineering**
+- create more readable codeing for others
+- aware of cases that might cause silent failure
+- create alerts of exceptions for debug logs and do testing & CI/CD
+- DRY (don't repeat yourself) to avoid encapsulation like avoid hard-coding or create a source of truth and YAGNI (You aren't gonna need it) to create only necessary things in the first go
+- design documents is the best for future redesigning or troubleshooting
+- care about efficiency: data structures and algorithms, how each tools do join and shuffle
 
 ## Lab 3
 

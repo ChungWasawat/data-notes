@@ -185,4 +185,26 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 - care about efficiency: data structures and algorithms, how each tools do join and shuffle
 
 ## Lab 3
+### how to set files up for unit test with pytest
+directory1   
+-- function   
+---- __init__.py   
+---- function1.py   
+-- tests   
+---- __init__.py   
+---- test_function1.py   
+
+1. create py file to do unit testing: main() and functions to test
+2. create py file to test by import the above file
+   - create function with test in front like test_function1()
+   - create fake data to test: start with namedtuple for table's schema
+   - create actual output that is what is returned from the imported function
+   - create expected output for the fake input with namedtuple and values
+     - may need to convert the output to dataframe or anything to simulate what will happen in production
+   - use assert() to compare actual output and expected output
+3. what to test
+   - deplicate case
+   -   d
+4. run pytest at directory1-level
+
 

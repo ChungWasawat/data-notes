@@ -172,7 +172,7 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 
 **Data Engineering capability standard**
 - Latency: choose the right latency for streaming and microbatch pipelines
-- Quality: apply best practices and frameworks (tools like Great Expectations, Amazon DQ, Chisa)
+- Quality: apply best practices and frameworks (tools like Great Expectations, Amazon DQ, Chispa to show which is error)
 - Completeness: practise how to communicate with domain experts to get the right schema or architecture
 - Ease-of-access and usability: create data products (e.g. built-in sql, powerful dashboard, read-and-write API) and proper data modeling 
 

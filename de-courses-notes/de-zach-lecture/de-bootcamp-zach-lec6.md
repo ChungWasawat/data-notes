@@ -83,6 +83,14 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
     - understanding stickiness of the app
 
 ## Lab 2
+### Tableau
++ Before creating Dashboard, need to think what story do you want to tell? YoY Growth? Total users from each device?
++ add percentage of total can choose multiple columns to be used for computing
++ Color Mark is so good to see details for each component
++ right click on dimension and create calculation field (rename) in sheet1
++ need to use horizontal/ vertical container to arrange sheets to be like in the video
++ Add annotation on dashboard to help in story telling ( for analysis to remind what event happened)
+
 
 
 

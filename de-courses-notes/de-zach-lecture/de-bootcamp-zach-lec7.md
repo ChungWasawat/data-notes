@@ -88,7 +88,10 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
   - metric storage: store what is queried from the aggregated (based on questions)
 + Schemas
   - Description of the storage like what it is for and what it stores etc.
-  - Example
+  - Example    
+    ![Example1](img/lec7/schema_example1.jpeg)
+    ![Example2](img/lec7/schema_example2.jpeg)
+    ![Example3](img/lec7/schema_example3.jpeg)
   - Quality check: example
     - Not Null check: column1 column2
     - No duplicate on Primary key check: columnA

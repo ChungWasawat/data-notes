@@ -28,7 +28,7 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
           - Good design spec
             - Description: to tell the pipeline's purpose
             - Flow Diagrams: show how data move from source to destination (raw data -> fact dimension model -> staging data -> production)
-              ![Flow Diagram](img/good_flow_diagram.jpg)
+              ![Flow Diagram](img/good_flow_diagram.jpeg)
             - Schemas: SQL DDL->Name convention = column name (dim, fct, scd, agg, m) + column type + column comment (description)
             - Quality checks: Show how it tests and its result
               - type of check

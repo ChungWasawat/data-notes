@@ -67,6 +67,39 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
       - want to explore data quickly, so it isn't worth to give the effort for this kind of pipeline
 
 ## Lab 1
-+ 
++ Example of questions
+  - how many people visit the website? what is the geographical and device break down of the traffic? which social media are these people coming from?
+  - how many people are signing up? what percentage of traffic is converting to signing up?
+  - how many people are purchasing products? what percentage of signups convert to paying customers?
++ Business Metrics:
+  - metric name: e.g signup_conversion_rate
+  - definition: formula to calculate the metric e.g. count(signups) / count(website_hits)
+  - is guardrail: metric that signify a problem to a business that is really bad -> if it's guardrail, it means all activities that reduce this metric can't be launched
+    - signup_conversion_rate is guardrail because the website needs users
+    - traffic_breakdown is not guardrail because it is not important where people are coming from, just converting those into members is okay
++ Flow Diagram
+  - use color to tell which is logs(source), fact table, dimension table, aggregated table, metric table
+  - source (storage): database, data lake, website 
+  - process: e.g. from the example questions
+    - want to know about IP location -> extract and label raw data (transform)
+    - want to know which device people are using -> like above step
+  - fact/dimension storage [core storage]: store what is already transformed from the source
+  - aggregated storage [core storage]: store what is aggregated from the fact/dimension
+  - metric storage: store what is queried from the aggregated (based on questions)
++ Schemas
+  - Description of the storage like what it is for and what it stores etc.
+  - Example
+  - Quality check: example
+    - Not Null check: column1 column2
+    - No duplicate on Primary key check: columnA
+    - Format check: column1 must be in www.aaaaa.com
+    - row count check
+      - grouped by column1, then check week-over-week counts for www.aaaaa.com and www.bbbb.com
+    - Enumeration check: column3 (must have these values: signup, login, purchase, etc)
+    - total_events should be more than set minimum number ... etc
+
 
 ## Lecture 2
+
+
+

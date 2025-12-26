@@ -103,6 +103,36 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
 
 
 ## Lecture 2
++ What causes bad data?
+  - Logging errors -most about fact data: null data from no required field, duplicate data from not disabling submit button
+  - Snapshotting error -most about dimensional data (rare): problem when snapshotting like missing some dimension/ user or duplicate users
+  - Production data quality issue: incorrect data on production needs to investigate and mostly with software engineer
+  - Schema evolution issue: data from both sides: collector (from app) and storage (data lake) doesn't match
+  - Pipeline mistake making it into production: lack communication with downstream when the error pipeline is deployed or not giving proper review 
+  - Non-idempotent pipelines and backfill errors: backfilling non-idempotent pipeline will cause errors
+  - Not thorough enough validation:
+    1. Because only data engineer can't do this alone, need data analyst or scientist or data expert
+    2. Third party data providers can change their policy or data schema
++ Validation best practices
+  - try backfilling a small amount of data (~ 1 month)
+  - always have someone else to check all assumptions (avoid own bias)
+  - produce a validation report: duplicate, null, violation of business rule, time series/ volume
++ Data contract - data involved in production (data or data storage or pipeline)
+  - To reduce mistakes as many as possible before its deployement (bad data propagation, the more downstream consumers, the bigger issue)
+  - component in the contract: schema, quality check result, how data shows up in production
+  - Types
+    - WAP - write, audit, publish
+    - Signal table (less I/O cost to production table)
+
+
++ Bad Metric definition can cause bad data
+  - The more different data points and dimensions your metric depends on, the more prone it is to error
+    - like metric for very specific user "convertion rate to users of female aged around 15-23 who lived in Kansus in every first quarter"
+
+
+
+
+
 
 
 

@@ -122,8 +122,11 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
   - component in the contract: schema, quality check result, how data shows up in production
   - Types
     - WAP - write, audit, publish
+      ![WAP](img/lec7/wap_diagram.jpeg)
     - Signal table (less I/O cost to production table)
-
+      ![Signal table](img/lec7/signal_table_diagram.jpeg)
+    - Pros and Cons
+      ![comparison](img/lec7/wap_vs_signal_table.jpeg)
 
 + Bad Metric definition can cause bad data
   - The more different data points and dimensions your metric depends on, the more prone it is to error

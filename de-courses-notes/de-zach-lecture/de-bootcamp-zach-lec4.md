@@ -61,8 +61,27 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
         - Ranking
 
 ## Lecture 2
-
-
-
++ questions in sql interviews that will almost never do on the job
+  - rewrite the query without window functions
+    - lead, lag is like doing self-join
+    - only use when the question gives keyword like rank, row_number
+  - write a query that leverages recursive common table expresions
+    - rare case like join three layers hierarchy (3 tables)
+  - use correlated subqueries in any capacity
++ must do this if they don't give some restrictions
+  - care about the number of table scans (I/O cost)
+    - use count(case when)
+    - use cumulative table design
+  - wrtie clean SQL code
+    - use common table expressions (with ..)
+    - use alias (as  ..)
+  - suggestion: should use explain() to see how each query works
+    - AST: Abstract Syntax Tree
+      - lower layer of SQL -> make how SQL run in order (where -> Group By, etc)
++ Advanced SQL techniques
+  - GROUPING SETS/ GROUP BY CUBE/ GROUP BY ROLLUP
+  - self-joins
+  - window functions: lag, lead, rows
+  - cross join unnest (called by sql-based) / lateral view explode (called by hive-based)
 
 

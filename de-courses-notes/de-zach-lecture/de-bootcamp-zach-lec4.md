@@ -80,8 +80,52 @@ source: [The ultimate YouTube DE boot camp](https://github.com/DataExpert-io/dat
       - lower layer of SQL -> make how SQL run in order (where -> Group By, etc)
 + Advanced SQL techniques
   - GROUPING SETS/ GROUP BY CUBE/ GROUP BY ROLLUP
+    - before dong these grouping, do coalesce dimensions that used as grouping key first to ensure that it's null from these grouping process, not because it's null from source
+    - this is better than using `UNION ALL` for multiple group by results as it performs only 1 full scan unlike `UNION ALL`
+    - only ROLLUP is available in Big Query
+    - GROUPING SETS
+      ```
+      FROM event_augmented
+      GROUP BY GROUPING SETS(
+          (os_type, device_type, browser_type),
+          (os_type, browser_type),
+          (os_type),
+          (browser_type)    
+      )
+      ```
+      | os_type | device_type | browser_type | total_user |
+      | :------ | :---------- | :----------- | :--------- |
+      | Data1   | DataA       | DataZ        | 20         |
+      | Data1   | DataA       | DataY        | 30         |
+      | Data1   | DataA       | Null         | 50         |
+      | Data1   | Null        | Null         | 50 or >50  |
+      - In like case, it's like instead of doing group by four times just using grouping set to do it once
+    - CUBE
+      ```
+      FROM events_augmented
+      GROUP BY CUBE(os_type, device_type, browser_type)
+      ```
+      - In this case, it will group by all possible groups of these keys
+        - example: (os_type), (os_type, browser_type), (device_type, browser_type), (os_type, device_type, browser_type), (), etc
+        - to not burden compute, 3 is the maximum number for different keys
+        - only use for data exploration
+    - ROLLUP
+      ```
+      FROM events_augmented
+      GROUP BY ROLLUP(os_type, device_type, browser_type)
+      ```
+      - This case will get only (os_type), (os_type, device_type), (os_type, device_type, browser_type)
   - self-joins
   - window functions: lag, lead, rows
+    - concise of function(row_number, dense_rank, sum, etc), window(partition by, order by, rows)
   - cross join unnest (called by sql-based) / lateral view explode (called by hive-based)
-
++ Need to think as data analyst to create query-ready data for analytics (not cover very specific one)
+  - symptoms of bad data modelling
+    - slow dashboards
+    - queries with a weird number of CTEs
+    - lots of CASE WHEN statements in the analytics queries
+  - practice
+    - do pre-aggregation with common keys like gender, country, app
+    - create materialized view or temp table/staging table for some CTEs of analysts
+      - storage cost is cheaper than compute cost
 

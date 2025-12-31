@@ -85,3 +85,71 @@ normally, data is extracted once a day, but it is also extracted "intraday" in s
         - more agnostic than Flink (compatible with other systems)
 
 ## Lecture 2
+![stream_process]()
+- for streaming pipelines, it needs intercepter to create events (this case: HTTP interceptor)
++ Upstream coding example    
+  ![HTTP_interceptor_code]()
+  - parameter: req = request, res= response, next= pass request to the web server
+  - shouldBeLogged (boolean) = 1. is url 2. url not localhost (during developing) 3. not file request (image)
+  - event = schema for log table (postgres)
+  - sendMessageToKafka is function for Kafka producer  
+  ![Kafka_Producer]()
+  - producer: configuration for producer
+  - messageObject: the message's detail like topic, message(event object)
+  - start producer -> send message's details -> return result and error (if any)
+![stream_process_2]()
+- update data in real time
+  - Another Kafka topic -> Consumer (deliver processed data) -> webserver -> Websocket (2-way communication client and server) -> Client
++ Architectures
+  - Lambda
+    - Optimizes for latency and correctness
+    - Complex
+      - mode coding
+    - Easy to insert data quality checks on the batch side
+  - Kappa
+    - least complex, great latency
+    - painful to read data history since several days ago
+    - works well with Delta Lake, Iceberg, Hudi
++ Flink UDFs
+  - customized transformation like in Spark
+  - Python UDFs are also slower like in Spark (Scala faster than Python)
++ Flink windows
+  - Data-driven windows
+    - count: window(per user) stay open until n number of events occur
+      - useful for funnels that have a predictable number of events
+      - specify timeout since not everybody will finish the funnel (10 min, an hour)
+  - Time-driven windows
+    - tumbling
+      - fixed size
+      - no overlap
+      - similar to batch hourly data extraction
+      - great for chunking data
+      - commonly used
+      ![tumbling window]()
+    - sliding
+      - fixed size
+      - can overlap
+      - can capture more windows than tumbling
+      - good for finding "peak-use" windows (choose specific time window between hours)
+        - look at one windows at the time (so no duplicate)
+      - bad for aggregation
+        - duplicate data, needs to be removed before doing anything like counting daily users
+      - good at handling "across midnight" exceptions in batch (session that start yesterday~11:58 and finish today~00:02)
+        - also different timezone
+      ![sliding window]()
+    - session
+      - variable length: set window gap for having session, no data
+      - based on activity
+        - start when user do something and use gaps to know if user has still used or quitted so it can close the session
+      - used to determin "normal" activity
++ Allowed Lateness vs Watermarking
+  - Watermark (suited for a short late like a few seconds)
+    - defines when the computational window will execute
+    - helps define ordering of events that arrive out of order
+    - handles idleness
+  - Allowed Lateness (suited for a longer late like minutes)
+    - usually set to 0 (not care about the late events)
+    - allows for reprocessing of events that fall within the late window (for a very late case)
+      - get two supposed-to-be-one records as window closed before another data comes
+      - caution: will generate/ merge with other records
+
